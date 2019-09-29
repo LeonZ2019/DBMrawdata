@@ -1,1 +1,282 @@
-
+{
+  "name": "lyrics",
+  "permissions": "NONE",
+  "restriction": "1",
+  "_id": "hlGBv",
+  "actions": [
+    {
+      "info": "1",
+      "infoIndex": "1",
+      "storage": "1",
+      "varName": "params",
+      "name": "Store Command Params"
+    },
+    {
+      "condition": "0",
+      "comparison": "1",
+      "value": "1",
+      "iftrue": "0",
+      "iftrueVal": "",
+      "iffalse": "2",
+      "iffalseVal": "5",
+      "name": "Check Parameters"
+    },
+    {
+      "channel": "0",
+      "varName": "",
+      "message": "you need to type something!",
+      "storage": "0",
+      "varName2": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "token": "",
+      "user": "",
+      "pass": "",
+      "url": "https://api.ksoft.si/lyrics/search?q=${tempVars(\"params\")}",
+      "path": "",
+      "storage": "1",
+      "varName": "json",
+      "debugMode": "1",
+      "headers": "Authorization: Token yourfancytokenhere",
+      "name": "Store Json From WebAPI"
+    },
+    {
+      "behavior": "0",
+      "jsonObjectVarName": "json",
+      "path": "name",
+      "storage": "1",
+      "varName": "song name",
+      "name": "Parse From Stored Json"
+    },
+    {
+      "behavior": "0",
+      "jsonObjectVarName": "json",
+      "path": "artist",
+      "storage": "1",
+      "varName": "artist",
+      "name": "Parse From Stored Json"
+    },
+    {
+      "behavior": "0",
+      "jsonObjectVarName": "json",
+      "path": "album_art",
+      "storage": "1",
+      "varName": "image",
+      "name": "Parse From Stored Json"
+    },
+    {
+      "behavior": "0",
+      "jsonObjectVarName": "json",
+      "path": "lyrics",
+      "storage": "1",
+      "varName": "lyrics",
+      "name": "Parse From Stored Json"
+    },
+    {
+      "behavior": "0",
+      "jsonObjectVarName": "json",
+      "path": "album_year",
+      "storage": "1",
+      "varName": "year",
+      "name": "Parse From Stored Json"
+    },
+    {
+      "behavior": "0",
+      "interpretation": "1",
+      "code": "const a = tempVars(\"lyrics\");\nconst b = String(a).length;\nconst r = 'true'\nconst f = 'false'\n\nif (b < 2000) {\n    Actions.storeValue(r, 1, \"lenght\", cache);\n  }\n  else {\n    Actions.storeValue(f, 1, \"lenght\", cache);\n  }",
+      "storage": "0",
+      "varName": "",
+      "name": "Run Script"
+    },
+    {
+      "storage": "1",
+      "varName": "lenght",
+      "comparison": "1",
+      "value": "\"true\"",
+      "iftrue": "0",
+      "iftrueVal": "",
+      "iffalse": "2",
+      "iffalseVal": "19",
+      "name": "Check Variable"
+    },
+    {
+      "info": "0",
+      "find": "${tempVars(\"image\")}",
+      "storage": "1",
+      "varName": "color",
+      "name": "Get Dominant Color"
+    },
+    {
+      "title": "${tempVars(\"song name\")} made by ${tempVars(\"artist\")}",
+      "author": "",
+      "color": "${tempVars(\"color\")}",
+      "url": "",
+      "authorIcon": "",
+      "authorUrl": "",
+      "imageUrl": "",
+      "thumbUrl": "${tempVars(\"image\")}",
+      "timestamp": "true",
+      "debug": "false",
+      "text": "",
+      "year": "",
+      "month": "",
+      "day": "",
+      "hour": "",
+      "minute": "",
+      "second": "",
+      "storage": "1",
+      "varName": "embed",
+      "name": "Create Embed Message"
+    },
+    {
+      "storage": "1",
+      "varName": "embed",
+      "message": "${tempVars(\"lyrics\")}",
+      "name": "Set Embed Description"
+    },
+    {
+      "storage": "1",
+      "varName": "embed",
+      "message": "Made in ${tempVars(\"year\")}",
+      "footerIcon": "",
+      "name": "Set Embed Footer"
+    },
+    {
+      "storage": "1",
+      "varName": "embed",
+      "channel": "0",
+      "varName2": "",
+      "storage3": "0",
+      "varName3": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Embed Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "behavior": "0",
+      "interpretation": "1",
+      "code": "const a = tempVars(\"lyrics\");\nconst b = String(a).length;\nconst c = b - 2000;\nActions.storeValue(c, 1, \"size\", cache);\n\n",
+      "storage": "0",
+      "varName": "",
+      "name": "Run Script"
+    },
+    {
+      "behavior": "0",
+      "interpretation": "1",
+      "code": "const str = tempVars(\"lyrics\");\nconst res = String(str).slice(0, 2000);\nActions.storeValue(res, 1, \"first\", cache);",
+      "storage": "0",
+      "varName": "",
+      "name": "Run Script"
+    },
+    {
+      "slice": "${tempVars(\"lyrics\")}",
+      "startingNumber": "2000",
+      "sliceLength": "${tempVars(\"size\")}",
+      "storage": "1",
+      "varName": "second",
+      "name": "Slice"
+    },
+    {
+      "info": "0",
+      "find": "${tempVars(\"image\")}",
+      "storage": "1",
+      "varName": "color",
+      "name": "Get Dominant Color"
+    },
+    {
+      "title": "${tempVars(\"song name\")} made by ${tempVars(\"artist\")}",
+      "author": "",
+      "color": "${tempVars(\"color\")}",
+      "url": "",
+      "authorIcon": "",
+      "authorUrl": "",
+      "imageUrl": "",
+      "thumbUrl": "${tempVars(\"image\")}",
+      "timestamp": "false",
+      "debug": "false",
+      "text": "",
+      "year": "",
+      "month": "",
+      "day": "",
+      "hour": "",
+      "minute": "",
+      "second": "",
+      "storage": "1",
+      "varName": "embed",
+      "name": "Create Embed Message"
+    },
+    {
+      "storage": "1",
+      "varName": "embed",
+      "message": "${tempVars(\"first\")}",
+      "name": "Set Embed Description"
+    },
+    {
+      "storage": "1",
+      "varName": "embed",
+      "channel": "0",
+      "varName2": "",
+      "storage3": "0",
+      "varName3": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Embed Message"
+    },
+    {
+      "title": "",
+      "author": "",
+      "color": "${tempVars(\"color\")}",
+      "url": "",
+      "authorIcon": "",
+      "authorUrl": "",
+      "imageUrl": "",
+      "thumbUrl": "",
+      "timestamp": "true",
+      "debug": "false",
+      "text": "",
+      "year": "",
+      "month": "",
+      "day": "",
+      "hour": "",
+      "minute": "",
+      "second": "",
+      "storage": "1",
+      "varName": "embed2",
+      "name": "Create Embed Message"
+    },
+    {
+      "storage": "1",
+      "varName": "embed2",
+      "message": "Made in ${tempVars(\"year\")}",
+      "footerIcon": "",
+      "name": "Set Embed Footer"
+    },
+    {
+      "storage": "1",
+      "varName": "embed2",
+      "message": "${tempVars(\"second\")}",
+      "name": "Set Embed Description"
+    },
+    {
+      "storage": "1",
+      "varName": "embed2",
+      "channel": "0",
+      "varName2": "",
+      "storage3": "0",
+      "varName3": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Embed Message"
+    }
+  ],
+  "comType": "0"
+}
