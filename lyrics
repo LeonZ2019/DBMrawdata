@@ -143,7 +143,7 @@
     {
       "storage": "1",
       "varName": "embed",
-      "message": "Made in ${tempVars(\"year\")}",
+      "message": "Made in ${tempVars(\"year\")}|Provided by Ksoft",
       "footerIcon": "",
       "name": "Set Embed Footer"
     },
@@ -256,7 +256,7 @@
     {
       "storage": "1",
       "varName": "embed2",
-      "message": "Made in ${tempVars(\"year\")}",
+      "message": "Made in ${tempVars(\"year\")}|Provided by Ksoft",
       "footerIcon": "",
       "name": "Set Embed Footer"
     },
