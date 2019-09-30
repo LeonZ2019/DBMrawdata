@@ -38,7 +38,7 @@
       "token": "",
       "user": "",
       "pass": "",
-      "url": "https://api.ksoft.si/lyrics/search?q=${tempVars(\"params\")}",
+      "url": "https://api.ksoft.si/lyrics/search?q=${tempVars(\"params\")}&&limit=1",
       "path": "",
       "storage": "1",
       "varName": "json",
@@ -49,7 +49,7 @@
     {
       "behavior": "0",
       "jsonObjectVarName": "json",
-      "path": "name",
+      "path": "$..name",
       "storage": "1",
       "varName": "song name",
       "name": "Parse From Stored Json"
@@ -57,7 +57,7 @@
     {
       "behavior": "0",
       "jsonObjectVarName": "json",
-      "path": "artist",
+      "path": "$..artist",
       "storage": "1",
       "varName": "artist",
       "name": "Parse From Stored Json"
@@ -65,7 +65,7 @@
     {
       "behavior": "0",
       "jsonObjectVarName": "json",
-      "path": "album_art",
+      "path": "$..album_art",
       "storage": "1",
       "varName": "image",
       "name": "Parse From Stored Json"
@@ -73,7 +73,7 @@
     {
       "behavior": "0",
       "jsonObjectVarName": "json",
-      "path": "lyrics",
+      "path": "$..lyrics",
       "storage": "1",
       "varName": "lyrics",
       "name": "Parse From Stored Json"
@@ -81,7 +81,7 @@
     {
       "behavior": "0",
       "jsonObjectVarName": "json",
-      "path": "album_year",
+      "path": "$..album_year",
       "storage": "1",
       "varName": "year",
       "name": "Parse From Stored Json"
@@ -164,7 +164,7 @@
     {
       "behavior": "0",
       "interpretation": "1",
-      "code": "const a = tempVars(\"lyrics\");\nconst b = String(a).length;\nconst c = b - 2000;\nActions.storeValue(c, 1, \"size\", cache);\n\n",
+      "code": "const a = tempVars(\"lyrics\");\nconst b = String(a).length;\nconst c = 2000\nconst d = b - 2000;\nconst e = '...'\nif (b > 4000) {\n    Actions.storeValue(c, 1, \"size\", cache);\n    Actions.storeValue(e, 1, \"...\", cache);\n  }\n  else {\n    Actions.storeValue(d, 1, \"size\", cache);\n  }\n",
       "storage": "0",
       "varName": "",
       "name": "Run Script"
@@ -262,8 +262,19 @@
     },
     {
       "storage": "1",
+      "varName": "...",
+      "comparison": "0",
+      "value": "",
+      "iftrue": "0",
+      "iftrueVal": "",
+      "iffalse": "2",
+      "iffalseVal": "32",
+      "name": "Check Variable"
+    },
+    {
+      "storage": "1",
       "varName": "embed2",
-      "message": "${tempVars(\"second\")}",
+      "message": "${tempVars(\"second\")}${tempVars(\"...\")}",
       "name": "Set Embed Description"
     },
     {
@@ -276,6 +287,15 @@
       "iffalse": "0",
       "iffalseVal": "",
       "name": "Send Embed Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "storage": "1",
+      "varName": "embed2",
+      "message": "${tempVars(\"second\")}",
+      "name": "Set Embed Description"
     }
   ],
   "comType": "0"
