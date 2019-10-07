@@ -1,0 +1,89 @@
+{
+  "name": "devcheck",
+  "permissions": "NONE",
+  "restriction": "1",
+  "_id": "jmBga",
+  "actions": [
+    {
+      "comment": "Checks if dev.txt exists",
+      "color": "#00ffff",
+      "name": "Comment"
+    },
+    {
+      "filename": "./data/dev.txt",
+      "iftrue": "2",
+      "iftrueVal": "5",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Check if File Exists"
+    },
+    {
+      "channel": "0",
+      "varName": "",
+      "message": "Please make a txt file named dev inside of the data folder in your bots directory!",
+      "storage": "0",
+      "varName2": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "comment": "Checks if the user is a bot dev or not",
+      "color": "#00ffff",
+      "name": "Comment"
+    },
+    {
+      "member": "1",
+      "varName": "",
+      "info": "1",
+      "storage": "1",
+      "varName2": "id",
+      "name": "Store Member Info"
+    },
+    {
+      "behavior": "0",
+      "interpretation": "1",
+      "code": "const a = 'true';\nconst b = 'false';\nconst fs = require('fs');\nvar data = fs.readFileSync('./data/dev.txt', 'utf-8');\nif(data.includes(String(tempVars(\"id\")))){\n    Actions.storeValue(a, 1, \"exist\", cache);\n}\nelse{\n     Actions.storeValue(b, 1, \"exist\", cache);\n}",
+      "storage": "0",
+      "varName": "",
+      "name": "Run Script"
+    },
+    {
+      "storage": "1",
+      "varName": "exist",
+      "comparison": "1",
+      "value": "'true'",
+      "iftrue": "0",
+      "iftrueVal": "",
+      "iffalse": "2",
+      "iffalseVal": "11",
+      "name": "Check Variable"
+    },
+    {
+      "channel": "0",
+      "varName": "",
+      "message": "You are a bot dev and can use this command!",
+      "storage": "0",
+      "varName2": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "channel": "0",
+      "varName": "",
+      "message": "You arent a bot dev and cant use this command!",
+      "storage": "0",
+      "varName2": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Message"
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "name": "devremove",
+  "permissions": "NONE",
+  "restriction": "4",
+  "_id": "UJsjf",
+  "actions": [
+    {
+      "comment": "Checks if dev.txt exists",
+      "color": "#00ffff",
+      "name": "Comment"
+    },
+    {
+      "filename": "./data/dev.txt",
+      "iftrue": "2",
+      "iftrueVal": "5",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Check if File Exists"
+    },
+    {
+      "channel": "0",
+      "varName": "",
+      "message": "Please make a txt file named dev inside of the data folder in your bots directory!",
+      "storage": "0",
+      "varName2": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "comment": "Checks if a parameter is supplied",
+      "color": "#00ffff",
+      "name": "Comment"
+    },
+    {
+      "condition": "0",
+      "comparison": "0",
+      "value": "0",
+      "iftrue": "0",
+      "iftrueVal": "",
+      "iffalse": "2",
+      "iffalseVal": "9",
+      "name": "Check Parameters"
+    },
+    {
+      "channel": "0",
+      "varName": "",
+      "message": "you need to give a parameter.",
+      "storage": "0",
+      "varName2": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "comment": "Checks if the user is in dev.txt",
+      "color": "#00ffff",
+      "name": "Comment"
+    },
+    {
+      "info": "0",
+      "infoIndex": "1",
+      "storage": "1",
+      "varName": "id",
+      "name": "Store Command Params"
+    },
+    {
+      "behavior": "0",
+      "interpretation": "0",
+      "code": "const a = 'true';\nconst b = 'false';\nconst fs = require('fs');\nvar data = fs.readFileSync('./data/dev.txt', 'utf-8');\nif(data.includes(String(tempVars(\"id\")))){\n    Actions.storeValue(a, 1, \"exist\", cache);\n}\nelse{\n     Actions.storeValue(b, 1, \"exist\", cache);\n}",
+      "storage": "0",
+      "varName": "",
+      "name": "Run Script"
+    },
+    {
+      "storage": "1",
+      "varName": "exist",
+      "comparison": "1",
+      "value": "'false'",
+      "iftrue": "0",
+      "iftrueVal": "",
+      "iffalse": "2",
+      "iffalseVal": "15",
+      "name": "Check Variable"
+    },
+    {
+      "channel": "0",
+      "varName": "",
+      "message": "This user isnt a bot dev!",
+      "storage": "0",
+      "varName2": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Message"
+    },
+    {
+      "name": "End Action Sequence"
+    },
+    {
+      "comment": "Removes the user from dev.txt",
+      "color": "#00ffff",
+      "name": "Comment"
+    },
+    {
+      "behavior": "0",
+      "interpretation": "1",
+      "code": "var fs = require('fs');\nvar data = fs.readFileSync('./data/dev.txt', 'utf-8');\nvar ip = String(tempVars(\"id\"));\n\nvar newValue = data.replace(new RegExp(ip), '');\nfs.writeFileSync('./data/dev.txt', newValue, 'utf-8');",
+      "storage": "0",
+      "varName": "",
+      "name": "Run Script"
+    },
+    {
+      "channel": "0",
+      "varName": "",
+      "message": "Removed ${tempVars(\"id\")} from bot dev list!",
+      "storage": "0",
+      "varName2": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Send Message"
+    }
+  ]
+}
