@@ -1,0 +1,35 @@
+{
+  "name": "mentionprefix",
+  "permissions": "NONE",
+  "restriction": "4",
+  "_id": "ayusl",
+  "actions": [
+    {
+      "behavior": "1",
+      "interpretation": "1",
+      "code": "/* Made by Destiny#2923\nWarning 1: Mention prefix wont work with commands that use store command parameters! Im trying to find ways to make it work but at this point it seems to be impossible\nWarning 2: Mention Prefix wont work with the DBM's built in User required permission option. Please use check member permissions instead\nWarning 3: You will need a modified version of call command/event which you can find in my github repository. Special thanks to LeonZ#4508\nWarning 4: Use this command at your own risk!*/\nconst args = msg.content.replace(server.tag, '').split(/ +/g);\nconst prefixMention = new RegExp(`^<@!?${me.id}>( |)$`);\nif (args[0].match(prefixMention)){\n    \n    const command = require('./data/commands.json');\n    const a = []\n    for (var i = 1; command[i]; i++) {\n        a.push(command[i].name);\n    }\n    a.join(', ');\n    if (a.includes(`${args[1]}`)){\n\t\tActions.storeValue(args[1], 1, \"command\", cache);\n\t\tthis.callNextAction(cache);\n    } else{\n      if (args.length != 2){\n        Actions.storeValue(\"no\", 1, \"ok\", cache);\n\t      this.callNextAction(cache);\n      } else {\n      const embed1 = new DiscordJS.RichEmbed()\n            .setTitle(\"Error!\")\n            .setDescription(`No such command with the name **${args[1]}** `)\n            .setColor(\"RED\")\n            .setTimestamp()\n      msg.channel.send(embed1);\n\t\t  Actions.storeValue(\"no\", 1, \"ok\", cache);\n      this.callNextAction(cache);\n      }\n    }\n\n}   else{\n\tActions.storeValue(\"no\", 1, \"ok\", cache);\n\tthis.callNextAction(cache);\n}",
+      "storage": "0",
+      "varName": "",
+      "name": "Run Script"
+    },
+    {
+      "storage": "1",
+      "varName": "ok",
+      "comparison": "1",
+      "value": "\"no\"",
+      "iftrue": "1",
+      "iftrueVal": "",
+      "iffalse": "0",
+      "iffalseVal": "",
+      "name": "Check Variable"
+    },
+    {
+      "sourcetype": "2",
+      "source": "hFmoc",
+      "source2": "${tempVars(\"command\")}",
+      "type": "true",
+      "name": "Call Command/Event"
+    }
+  ],
+  "comType": "3"
+}
