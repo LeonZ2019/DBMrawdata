@@ -1,34 +1,16 @@
 {
   "name": "mentionprefix",
   "permissions": "NONE",
-  "restriction": "4",
-  "_id": "ayusl",
+  "restriction": "0",
+  "_id": "hIqhq",
   "actions": [
     {
       "behavior": "1",
       "interpretation": "1",
-      "code": "/* Made by Destiny#2923\nWarning 1: Mention prefix wont work with commands that use store command parameters! Im trying to find ways to make it work but at this point it seems to be impossible\nWarning 2: Mention Prefix wont work with the DBM's built in User required permission option. Please use check member permissions instead\nWarning 3: You will need a modified version of call command/event which you can find in my github repository. Special thanks to LeonZ#4508\nWarning 4: Use this command at your own risk!*/\nconst args = msg.content.replace(server.tag, '').split(/ +/g);\nconst prefixMention = new RegExp(`^<@!?${me.id}>( |)$`);\nif (args[0].match(prefixMention)){\n    \n    const command = require('./data/commands.json');\n    const a = []\n    for (var i = 1; command[i]; i++) {\n        a.push(command[i].name);\n    }\n    a.join(', ');\n    if (a.includes(`${args[1]}`)){\n\t\tActions.storeValue(args[1], 1, \"command\", cache);\n\t\tthis.callNextAction(cache);\n    } else{\n      if (args.length != 2){\n        Actions.storeValue(\"no\", 1, \"ok\", cache);\n\t      this.callNextAction(cache);\n      } else {\n      const embed1 = new DiscordJS.RichEmbed()\n            .setTitle(\"Error!\")\n            .setDescription(`No such command with the name **${args[1]}** `)\n            .setColor(\"RED\")\n            .setTimestamp()\n      msg.channel.send(embed1);\n\t\t  Actions.storeValue(\"no\", 1, \"ok\", cache);\n      this.callNextAction(cache);\n      }\n    }\n\n}   else{\n\tActions.storeValue(\"no\", 1, \"ok\", cache);\n\tthis.callNextAction(cache);\n}",
+      "code": "const Files = this.getDBM().Files.data;\nconst separator = new RegExp(Files.settings.separator,\"g\");\nconst args = msg.content.split(separator);\nconst prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);\nif (args[0].match(prefixMention)){\n  const allData = Files.commands;\n  let cmd = false;\n  Object.keys(allData).forEach(function(command) {\n    if (allData[command]) {\n      if (allData[command].name == args[1]) {\n        cmd = allData[command];\n      }\n    }\n  });\n  if (cmd) {\n    let restriction = true;\n    console.log(parseInt(cmd.restriction))\n    switch (parseInt(cmd.restriction)) {\n      case 0:\n        restriction = false;\n        break;\n      case 1:\n        if (cache.server) {\n          if (cmd.permissions != \"NONE\") {\n            if (member.permissions.has(cmd.permissions)) {\n              restriction = false;\n            }\n          } else {\n            restriction = false;\n          }\n        }\n        break;\n      case 2:\n      case 4:\n        if (msg.author.id == Files.settings.ownerId) {\n          restriction = false;\n        };\n        break;\n      case 3:\n        if (cache.server) {\n          restriction = false;\n        };\n        break;\n    };\n    if (!restriction) {\n      args.shift();\n      args[0] = Files.settings.tag + args[0]\n      cache.msg.content = args.join(\" \");\n      const cache2 = {\n        actions: cmd.actions,\n        index: -1,\n        temp: {},\n        server: cache.server,\n        msg: cache.msg\n      }\n      this.callNextAction(cache2);\n    }\n  }\n}",
       "storage": "0",
       "varName": "",
       "name": "Run Script"
-    },
-    {
-      "storage": "1",
-      "varName": "ok",
-      "comparison": "1",
-      "value": "\"no\"",
-      "iftrue": "1",
-      "iftrueVal": "",
-      "iffalse": "0",
-      "iffalseVal": "",
-      "name": "Check Variable"
-    },
-    {
-      "sourcetype": "2",
-      "source": "hFmoc",
-      "source2": "${tempVars(\"command\")}",
-      "type": "true",
-      "name": "Call Command/Event"
     }
   ],
   "comType": "3"
